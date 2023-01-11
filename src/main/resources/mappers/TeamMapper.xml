@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.futsal.score4u.mapper.TeamMapper">
+
+    <select id="select" resultType="com.futsal.score4u.domain.TeamVO">
+        SELECT * FROM team WHERE mSeqNo=#{mSeqNo};
+    </select>
+
+    <insert id="insert">
+        INSERT INTO team VALUE (seqNo, #{teamName}, #{city}, #{streetAddr}, #{mSeqNo}, mSeqNo)
+    </insert>
+</mapper>
