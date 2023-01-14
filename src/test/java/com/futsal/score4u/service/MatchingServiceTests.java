@@ -2,6 +2,8 @@ package com.futsal.score4u.service;
 
 import com.futsal.score4u.domain.MatchingVO;
 import com.futsal.score4u.dto.MatchingDTO;
+import com.futsal.score4u.dto.PageRequestDTO;
+import com.futsal.score4u.dto.PageResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +20,24 @@ public class MatchingServiceTests {
     @Autowired
     private MatchingService matchingService;
 
+//    @Test
+//    public void getAllTest() {
+//        List<MatchingDTO> matchingDTO = matchingService.getAll();
+//
+//        matchingDTO.forEach(vo -> System.out.println(matchingDTO));
+//    }
+
     @Test
-    public void getAllTest() {
-        List<MatchingDTO> matchingDTO = matchingService.getAll();
+    public void testPaging() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
 
-        matchingDTO.forEach(vo -> System.out.println(matchingDTO));
+        PageResponseDTO<MatchingDTO> responseDTO = matchingService.getList(pageRequestDTO);
+
+        System.out.println(responseDTO);
+
+        responseDTO.getDtoList().forEach(System.out::println);
+
     }
-
     @Test
     public void getOneTest() {
         MatchingDTO matchingVO = matchingService.getOne(2L);

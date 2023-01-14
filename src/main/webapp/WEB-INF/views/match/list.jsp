@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Todo List</title>
+    <title>Match List</title>
 </head>
 <body>
 
@@ -52,6 +52,14 @@
                         Match List
                     </div>
                     <div class="card-body">
+                        검색기능 구현
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Match List
+                    </div>
+                    <div class="card-body">
                         <table class="table">
                             <thead>
                             <tr>
@@ -65,18 +73,52 @@
                             </thead>
 
                             <tbody>
-                            <c:forEach items="${dtoList}" var="dto">
+                            <c:forEach items="${responseDTO.dtoList}" var="dto">
                                 <tr style="cursor: pointer" onclick="location.href='/match/read?seq=${dto.seqNo}'">
                                     <td><c:out value="${dto.team}"/></td>
                                     <td><c:out value="${dto.city}"/></td>
                                     <td><c:out value="${dto.streetAddr}"/></td>
                                     <td><c:out value="${dto.matchLocation}"/></td>
                                     <td><c:out value="${dto.matchDate}"/></td>
-                                    <td><c:out value="${dto.finished ? '매치완료':'신청가능'}"/></td>
+                                    <td><c:out value="${dto.finished ? '매칭완료':'신청가능'}"/></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
                         </table>
+                        <div class="float-end">
+                            <ul class="pagination flex-wrap">
+                                <c:if test="${responseDTO.prev}">
+                                    <li class="page-item">
+                                        <a class="page-link data-num=${responseDTO.start -1}">Previous</a>
+                                    </li>
+                                </c:if>
+                                <c:forEach begin="${responseDTO.start}" end="${responseDTO.end}" var="num">
+                                    <li class="page-item ${responseDTO.page == num ? "active":""} "> <a class="page-link" data-num="${num}">${num}</a></li>
+                                </c:forEach>
+
+                                <c:if test="${responseDTO.next}">
+                                    <li class="page-item">
+                                        <a class="page-link" data-num="${responseDTO.end + 1}">Next</a>
+                                    </li>
+                                </c:if>
+                            </ul>
+
+                            <script>
+
+                                document.querySelector(".pagination").addEventListener("click", function (e) {
+                                    e.preventDefault()
+                                    e.stopPropagation()
+
+                                    const target = e.target
+                                    if(target.tagName !== 'A' ) {
+                                        return
+                                    }
+                                    const num = target.getAttribute("data-num")
+
+                                    self.location = `/match/list?page=\${num}` //밷킥을 이용해서 템플릿 처리
+                                }, false)
+                            </script>
+                        </div>
                     </div>
                 </div>
             </div>

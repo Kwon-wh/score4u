@@ -2,12 +2,15 @@ package com.futsal.score4u.service;
 
 import com.futsal.score4u.domain.MatchingVO;
 import com.futsal.score4u.dto.MatchingDTO;
+import com.futsal.score4u.dto.PageRequestDTO;
+import com.futsal.score4u.dto.PageResponseDTO;
 import com.futsal.score4u.mapper.MatchingMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,14 +21,30 @@ public class MatchingImpl implements MatchingService{
 
     private final MatchingMapper matchingMapper;
     private final ModelMapper modelMapper;
-    @Override
-    public List<MatchingDTO> getAll() {
-        log.info("GetAll Service...............");
+//    @Override
+//    public List<MatchingDTO> getAll() {
+//        log.info("GetAll Service...............");
+//
+//        List<MatchingDTO> doList = matchingMapper.selectAll().stream()
+//                .map(vo -> modelMapper.map(vo, MatchingDTO.class))
+//                .collect(Collectors.toList());
+//        return new ArrayList<>();
+//    }
 
-        List<MatchingDTO> doList = matchingMapper.selectAll().stream()
+    @Override
+    public PageResponseDTO<MatchingDTO> getList(PageRequestDTO pageRequestDTO) {
+        List<MatchingVO> voList = matchingMapper.selectAll(pageRequestDTO);
+
+        List<MatchingDTO> dtoList = voList.stream()
                 .map(vo -> modelMapper.map(vo, MatchingDTO.class))
                 .collect(Collectors.toList());
-        return doList;
+        int total = matchingMapper.getCount(pageRequestDTO);
+
+        return PageResponseDTO.<MatchingDTO>withAll()
+                .dtoList(dtoList)
+                .total(total)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.futsal.score4u.mapper;
 
 import com.futsal.score4u.domain.MatchingVO;
+import com.futsal.score4u.dto.PageRequestDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,12 @@ public class MatchingMapperTests {
 
     @Test
     public void testSelectAll() {
-        List<MatchingVO> voList = matchingMapper.selectAll();
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .build();
+
+        List<MatchingVO> voList = matchingMapper.selectAll(pageRequestDTO);
 
         voList.forEach(vo -> System.out.println(voList));
     }

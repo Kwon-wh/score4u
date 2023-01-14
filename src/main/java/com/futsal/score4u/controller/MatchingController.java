@@ -1,6 +1,7 @@
 package com.futsal.score4u.controller;
 
 import com.futsal.score4u.dto.MatchingDTO;
+import com.futsal.score4u.dto.PageRequestDTO;
 import com.futsal.score4u.service.MatchingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -39,9 +40,13 @@ public class MatchingController {
     }
 
     @GetMapping("/list")
-    public void list(Model model) {
-        log.info("matching list....................");
-        model.addAttribute("dtoList", matchingService.getAll());
+    public void list(@Valid PageRequestDTO pageRequestDTO,BindingResult bindingResult,  Model model) {
+        log.info(pageRequestDTO);
+
+        if(bindingResult.hasErrors()) {
+            pageRequestDTO = PageRequestDTO.builder().build();
+        }
+        model.addAttribute("responseDTO", matchingService.getList(pageRequestDTO));
     }
 
     @GetMapping({"/read"})

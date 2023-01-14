@@ -77,7 +77,7 @@
                             </div>
                             <div class="input-group mb-3" hidden="hidden">
                                 <span class="input-group-text">매칭 여부</span>
-                                <input type="text" name="finished"value=<c:out value="${dto.finished}"/> readonly>
+                                <input type="text" name="finished" value=<c:out value="${dto.finished}"/> readonly>
                             </div>
                             <div class="my-4">
                                 <div class="float-end">
