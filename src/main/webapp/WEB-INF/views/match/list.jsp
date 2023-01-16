@@ -49,11 +49,27 @@
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        Match List
+                        매치 검색
                     </div>
-                    <div class="card-body">
-                        검색기능 구현
-                    </div>
+                    <form action="/match/list" method="get">
+                        <input hidden="hidden" name="size" value="${pageRequestDTO.size}">
+                        <div class="card-body">
+                           <div class="mb-3">
+                               <input type="checkbox" name="types" value="t" ${pageRequestDTO.checkType("t")?"checked":""} placeholder="팀이름">팀이름
+                               <input type="checkbox" name="types" value="c" ${pageRequestDTO.checkType("c")?"checked":""} placeholder="도시">도시
+                               <input type="text" name="keyword" value='<c:out value="${pageRequestDTO.keyword}"/>' class="form-control">
+                           </div>
+                            <div class="input-group mb-3 matchDateDiv">
+                                <input type="date" name="from" class="form-control" value="${pageRequestDTO.from}">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="float-end">
+                                    <button class="btn btn-primary" type="submit">검색</button>
+                                    <button class="btn btn-primary clearBtn" type="reset">초기화</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="card">
                     <div class="card-header">
@@ -115,7 +131,17 @@
                                     }
                                     const num = target.getAttribute("data-num")
 
-                                    self.location = `/match/list?page=\${num}` //밷킥을 이용해서 템플릿 처리
+                                    const  formObj = document.querySelector("form")
+                                    formObj.innerHTML += `<input type='hidden' name='page' value='\${num}'>`
+                                    // self.location = `/match/list?page=\${num}` //백킷을 이용해서 템플릿 처리
+                                    formObj.submit();
+                                }, false)
+
+                                document.querySelector(".clearBtn").addEventListener("click", function (e) {
+                                    e.preventDefault()
+                                    e.stopPropagation()
+
+                                    self.location = '/match/list'
                                 }, false)
                             </script>
                         </div>

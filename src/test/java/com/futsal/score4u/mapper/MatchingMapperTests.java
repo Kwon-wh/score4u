@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -29,5 +30,21 @@ public class MatchingMapperTests {
         voList.forEach(vo -> System.out.println(voList));
     }
 
+
+    @Test
+    public void testSelectSearch() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .types(new String[]{"t", "c"})
+                .keyword("team5")
+                .from(LocalDate.of(2023,1,10))
+                .build();
+        List<MatchingVO> voList = matchingMapper.selectAll(pageRequestDTO);
+
+        voList.forEach(System.out::println);
+
+        System.out.println(matchingMapper.getCount(pageRequestDTO));
+    }
 
 }

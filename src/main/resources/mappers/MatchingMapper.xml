@@ -3,9 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.futsal.score4u.mapper.MatchingMapper">
+    <sql id="search">
+        <where>
+            <if test="types != null and types.length > 0">
+                <foreach collection="types" item="type" open="(" close=")" separator=" OR ">
+                    <if test="type == 't'.toString()">
+                        team like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test="type == 'c'.toString()">
+                        city like concat('%', #{keyword}, '%')
+                    </if>
+                </foreach>
+                <if test="from != null">
+                    <trim prefix="and">
+                        matchDate = #{from}
+                    </trim>
+                </if>
+            </if>
+        </where>
+    </sql>
     <select id="selectAll" resultType="com.futsal.score4u.domain.MatchingVO">
 #         SELECT * FROM matching order by seqNO desc ;
-        SELECT * FROM matching order by seqNO desc LIMIT #{skip}, #{size};
+        SELECT * FROM matching
+            <include refid="search" />
+        order by seqNO desc LIMIT #{skip}, #{size};
     </select>
 
     <select id="selectOne" resultType="com.futsal.score4u.domain.MatchingVO">
