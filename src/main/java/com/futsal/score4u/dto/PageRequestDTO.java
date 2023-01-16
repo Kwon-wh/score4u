@@ -39,10 +39,10 @@ public class PageRequestDTO {
     }
 
     // 검색
-    private String[] types;
-    private String keyword;
+    private String teamKeyword;
+    private String matchCityKeyword;
     private boolean finished;
-    private LocalDate from;
+    private LocalDate fromDate;
     private LocalDateTime time;
 
     public String getLink() {
@@ -50,34 +50,30 @@ public class PageRequestDTO {
         builder.append("page=" + this.page);
         builder.append("&size=" + this.size);
 
-        if(types != null && types.length > 0) {
-            for (int i =0; i < types.length; i++) {
-                builder.append("&types=" + types[i]);
-            }
-        }
 
-        if(keyword != null) {
+        if(teamKeyword != null) {
             try {
-                builder.append("&keyword=" + URLEncoder.encode(keyword, "UTF-8"));
+                builder.append("&teamKeyword=" + URLEncoder.encode(teamKeyword, "UTF-8"));
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
 
-        if(from != null) {
-            builder.append("&from" + from.toString());
+        if(matchCityKeyword != null) {
+            try {
+                builder.append("&matchCityKeyword=" + URLEncoder.encode(matchCityKeyword, "UTF-8"));
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(fromDate != null) {
+            builder.append("&from" + fromDate.toString());
         }
 
         return builder.toString();
-    }
-
-    public boolean checkType(String type) {
-        if(types == null || types.length == 0) {
-            return false;
-        }
-
-        return Arrays.stream(types).anyMatch(type::equals);
     }
 
 

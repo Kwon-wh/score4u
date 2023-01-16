@@ -36,9 +36,9 @@ public class MatchingMapperTests {
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
                 .page(1)
                 .size(10)
-                .types(new String[]{"t", "c"})
-                .keyword("team5")
-                .from(LocalDate.of(2023,1,10))
+                .teamKeyword("team5")
+                .matchCityKeyword("서울시")
+                .fromDate(LocalDate.of(2023,1,10))
                 .build();
         List<MatchingVO> voList = matchingMapper.selectAll(pageRequestDTO);
 

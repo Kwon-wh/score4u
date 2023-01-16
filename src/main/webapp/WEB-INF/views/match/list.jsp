@@ -5,13 +5,6 @@
   Time: 12:37
   To change this template use File | Settings | File Templates.
 --%>
-<%--
-  Created by IntelliJ IDEA.
-  User: kwon-woohee
-  Date: 2023/01/06
-  Time: 11:56
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -55,12 +48,11 @@
                         <input hidden="hidden" name="size" value="${pageRequestDTO.size}">
                         <div class="card-body">
                            <div class="mb-3">
-                               <input type="checkbox" name="types" value="t" ${pageRequestDTO.checkType("t")?"checked":""} placeholder="팀이름">팀이름
-                               <input type="checkbox" name="types" value="c" ${pageRequestDTO.checkType("c")?"checked":""} placeholder="도시">도시
-                               <input type="text" name="keyword" value='<c:out value="${pageRequestDTO.keyword}"/>' class="form-control">
+                               <input type="text" name="teamKeyword" value='<c:out value="${pageRequestDTO.teamKeyword}"/>' class="form-control" placeholder="팀이름">
+                               <input type="text" name="matchCityKeyword" value='<c:out value="${pageRequestDTO.matchCityKeyword}"/>' class="form-control" placeholder="매칭지역">
                            </div>
                             <div class="input-group mb-3 matchDateDiv">
-                                <input type="date" name="from" class="form-control" value="${pageRequestDTO.from}">
+                                <input type="date" name="fromDate" class="form-control" value="${pageRequestDTO.fromDate}">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="float-end">

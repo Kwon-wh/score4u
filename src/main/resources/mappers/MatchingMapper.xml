@@ -5,20 +5,23 @@
 <mapper namespace="com.futsal.score4u.mapper.MatchingMapper">
     <sql id="search">
         <where>
-            <if test="types != null and types.length > 0">
-                <foreach collection="types" item="type" open="(" close=")" separator=" OR ">
-                    <if test="type == 't'.toString()">
-                        team like concat('%', #{keyword}, '%')
-                    </if>
-                    <if test="type == 'c'.toString()">
-                        city like concat('%', #{keyword}, '%')
-                    </if>
-                </foreach>
-                <if test="from != null">
+            <if test="teamKeyword != null">
+                    team like concat('%', #{teamKeyword}, '%')
+            </if>
+            <if test="matchCityKeyword != null">
+                <if test="teamKeyword != null">
                     <trim prefix="and">
-                        matchDate = #{from}
+                        matchLocation like concat('%', #{matchCityKeyword}, '%')
                     </trim>
                 </if>
+                <if test="teamKeyword == null">
+                    matchLocation like concat('%', #{matchCityKeyword}, '%')
+                </if>
+            </if>
+            <if test="fromDate != null">
+                <trim prefix="and">
+                    matchDate = #{fromDate}
+                </trim>
             </if>
         </where>
     </sql>
